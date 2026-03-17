@@ -4,6 +4,7 @@
 
 .recently-viewed-products__heading {
   margin: 0 0 1rem;
+  text-transform: uppercase;
   text-align: center;
 }
 

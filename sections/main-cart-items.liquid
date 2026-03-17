@@ -565,12 +565,13 @@
                   <button
                     type="submit"
                     id="checkout"
-                    class="cart__checkout-button button"
+                    class="shopifynative cart__checkout-button button"
                     name="checkout"
                     form="cart"
                   >
                     {{ 'sections.cart.checkout' | t }}
                   </button>
+                   {% render 'gokwik-checkout' %}
                 </div>
 
                 {%- if additional_checkout_buttons -%}

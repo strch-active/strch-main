@@ -370,6 +370,7 @@ form .product-form__buttons {
   max-width: 44rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
 }
 
 xb-wishlist-button {
@@ -1419,6 +1420,10 @@ xb-wishlist-button button {
   .product-media-container.media-fit-cover .media {
     /* allow media img element to scale relative to modal-opener/product-media-container */
     position: initial;
+  }
+
+  form .product-form__buttons {
+    max-width: 100%;
   }
 }
 

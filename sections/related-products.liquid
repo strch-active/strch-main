@@ -3,6 +3,11 @@
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 {{ 'section-related-products.css' | asset_url | stylesheet_tag }}
 
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+{{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
+{{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
+{{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
@@ -110,29 +115,29 @@
 
 {% if recommendations.performed and recommendations.products_count > 0 %}
   <script>
-    (function() {
+    (function () {
       // Initialize wishlist buttons for related products section
       function initWishlistButtons() {
         const relatedProductsSection = document.querySelector('.related-products');
         if (!relatedProductsSection) return;
-        
+
         // Dispatch custom event for wishlist app to detect product cards
         relatedProductsSection.dispatchEvent(new CustomEvent('product-cards-loaded', { bubbles: true }));
-        
+
         // Trigger wishlist button initialization
         const wishlistButtons = relatedProductsSection.querySelectorAll('xb-wishlist-button-collection');
-        wishlistButtons.forEach(button => {
+        wishlistButtons.forEach((button) => {
           if (button.connectedCallback && typeof button.connectedCallback === 'function') {
             button.connectedCallback();
           }
         });
-        
+
         // If wishlist app has a global initialization function, call it
         if (window.xbWishlist && typeof window.xbWishlist.init === 'function') {
           window.xbWishlist.init();
         }
       }
-      
+
       // Initialize on DOM ready
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initWishlistButtons);
@@ -140,7 +145,7 @@
         // DOM already loaded, initialize immediately
         setTimeout(initWishlistButtons, 100);
       }
-      
+
       // Also initialize when product-recommendations custom element loads content
       const productRecommendations = document.querySelector('product-recommendations.related-products');
       if (productRecommendations) {
@@ -232,7 +237,7 @@
           "value": "2",
           "label": "t:sections.related-products.settings.columns_mobile.options__2.label"
         }
-      ]    
+      ]
     },
     {
       "type": "color_scheme",

@@ -1,0 +1,375 @@
+<style>
+.media-hero-swiper-section {
+  width: 100%;
+  position: relative;
+}
+
+.media-swiper img,
+.media-swiper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+{% comment %} .video--slide{
+  position: relative;
+}
+
+.video--slide::after{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.35);
+  display: block;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+} {% endcomment %}
+
+.media-swiper {
+  width: 100%;
+}
+
+/* FLOATER */
+.hero-floater {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  max-width: 500px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-floater h3{
+  font-size: 36px;
+  margin: 0;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.hero-floater p{
+  font-size: 18px;
+  margin: 8px 0 16px;
+}
+
+.hero-floater a{
+  display: inline-block;
+  padding: 10px 22px;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  font-weight: 700;
+  font-family: 'League Spartan';
+  text-transform: uppercase;
+}
+
+/* NAVIGATION */
+.hero-swiper-button-next,
+.hero-swiper-button-prev {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hero-swiper-button-next::after,
+.hero-swiper-button-prev::after {
+  font-size: 16px;
+}
+
+.hero-swiper-button-prev {
+  left: 20px;
+}
+
+.hero-swiper-button-next {
+  right: 20px;
+}
+
+/* PAGINATION */
+.hero-swiper-pagination {
+  position: absolute;
+  bottom: 20px !important;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+}
+
+.hero-swiper-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  opacity: 0.5;
+  margin: 0 6px !important;
+}
+
+.hero-swiper-pagination .swiper-pagination-bullet-active {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* MOBILE */
+@media (max-width: 749px){
+  .hero-floater{
+    top: unset;
+    left:20px;
+    right:20px;
+    bottom:12%;
+    transform: none;
+    display: block;
+  }
+
+  .hero-floater h3{
+    font-size:24px;
+  }
+
+  .hero-swiper-button-next,
+  .hero-swiper-button-prev {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hero-swiper-button-next{right: 8px;}
+  .hero-swiper-button-prev{left: 8px;}
+
+}
+</style>
+
+<section class="media-hero-swiper-section">
+  <div class="swiper media-swiper">
+    <div class="swiper-wrapper">
+
+      {% for block in section.blocks %}
+      <div class="swiper-slide {% if block.settings.slide_type == 'video' %} video--slide{% endif %}" {{ block.shopify_attributes }}>
+
+        {% if block.settings.slide_type == 'image' %}
+
+          {% if block.settings.image != blank %}
+          <a href="{{ block.settings.block_link }}" class="full-unstyled-link">
+
+            <img
+              src="{{ block.settings.image | image_url: width: 2000 }}"
+              alt="{{ block.settings.block_heading }}"
+              loading="lazy"
+              class="small-hide"
+              width="auto"
+              height="auto"
+            >
+
+            {% if block.settings.image_mob != blank %}
+            <img
+              src="{{ block.settings.image_mob | image_url: width: 1200 }}"
+              alt="{{ block.settings.block_heading }}"
+              loading="lazy"
+              class="medium-hide large-up-hide"
+              width="auto"
+              height="auto"
+            >
+            {% endif %}
+
+          </a>
+          {% endif %}
+
+        {% else %}
+
+          {% if block.settings.video != blank %}
+
+          {{ block.settings.video | video_tag:
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            class: "small-hide"
+          }}
+
+          {% if block.settings.video_mobile != blank %}
+          {{ block.settings.video_mobile | video_tag:
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            class: "medium-hide large-up-hide"
+          }}
+          {% endif %}
+
+          {% endif %}
+
+        {% endif %}
+
+        {% if block.settings.block_heading != blank %}
+        <div class="hero-floater">
+
+          <h3>{{ block.settings.block_heading }}</h3>
+
+          {% if block.settings.block_description != blank %}
+          <p>{{ block.settings.block_description }}</p>
+          {% endif %}
+
+          {% if block.settings.block_link != blank %}
+          <a href="{{ block.settings.block_link }}">
+            {{ block.settings.block_link_name }}
+          </a>
+          {% endif %}
+
+        </div>
+        {% endif %}
+
+      </div>
+      {% endfor %}
+
+    </div>
+
+    <div class="hero-swiper-pagination"></div>
+
+    <div class="hero-swiper-button-prev">
+      <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15 7L10 12L15 17" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+    </div>
+    <div class="hero-swiper-button-next">
+      <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 7L15 12L10 17" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+    </div>
+
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+  const slider = document.querySelector('.media-swiper');
+
+  if(!slider) return;
+
+  new Swiper(slider, {
+    loop: true,
+    speed: 800,
+
+    autoplay:{
+      delay: {{ section.settings.autoplay_timeout | times: 1000 }},
+      disableOnInteraction:false
+    },
+
+    pagination:{
+      el:'.hero-swiper-pagination',
+      clickable:true
+    },
+
+    navigation:{
+      nextEl:'.hero-swiper-button-next',
+      prevEl:'.hero-swiper-button-prev'
+    }
+
+  });
+
+});
+</script>
+
+{% schema %}
+{
+  "name": "Media Swiper Slider",
+  "settings": [
+    {
+      "type": "range",
+      "id": "autoplay_timeout",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 5,
+      "unit": "sec",
+      "label": "Autoplay timeout"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+
+        {
+          "type": "select",
+          "id": "slide_type",
+          "label": "Slide Type",
+          "options": [
+            { "value": "image", "label": "Image" },
+            { "value": "video", "label": "Video" }
+          ],
+          "default": "image"
+        },
+
+        {
+          "type": "text",
+          "id": "block_heading",
+          "label": "Heading"
+        },
+
+        {
+          "type": "textarea",
+          "id": "block_description",
+          "label": "Description"
+        },
+
+        {
+          "type": "url",
+          "id": "block_link",
+          "label": "Link"
+        },
+
+        {
+          "type": "text",
+          "id": "block_link_name",
+          "label": "Link title"
+        },
+
+        {
+          "type": "header",
+          "content": "Image settings"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop image"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "image_mob",
+          "label": "Mobile image"
+        },
+
+        {
+          "type": "header",
+          "content": "Video settings"
+        },
+
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Desktop video"
+        },
+
+        {
+          "type": "video",
+          "id": "video_mobile",
+          "label": "Mobile video"
+        }
+
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name":"Media Swiper Slider"
+    }
+  ]
+}
+{% endschema %}

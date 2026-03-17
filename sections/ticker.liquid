@@ -3,6 +3,11 @@
   "name": "Scrolling Ticker",
   "settings": [
     {
+      "type": "checkbox",
+      "id": "enable_ticker",
+      "label": "Enable"
+    },
+    {
       "type": "range",
       "id": "speed",
       "label": "Animation Speed (seconds)",
@@ -61,6 +66,7 @@
 }
 {% endschema %}
 
+{%- if section.settings.enable_ticker -%}
 <style>
   .ticker-{{ section.id }} {
     overflow: hidden;
@@ -123,3 +129,4 @@
     {%- endfor -%}
   </div>
 </div>
+{%- endif -%}

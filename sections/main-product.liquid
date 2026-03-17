@@ -474,10 +474,7 @@
                 %}
 
               {%- when 'variant_picker' -%}
-                {% render 'color-swatches-group',
-                  product: product,
-                  location: 'product_detail'
-                %}
+                {% render 'color-swatches-group', product: product, location: 'product_detail' %}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
               {%- when '@app' -%}
                 <div class="size-guide-container"></div>
@@ -495,8 +492,7 @@
                     {{
                       block.settings.static_image
                       | image_url: width: 800
-                      | image_tag:
-                        widths: '50, 75, 100, 150, 200, 400, 800'
+                      | image_tag: widths: '50, 75, 100, 150, 200, 400, 800'
                     }}
                   </div>
                 {%- endif -%}
@@ -601,6 +597,14 @@
                                     limit: block.settings.products_per_page
                                     offset: continue
                                   -%}
+
+                                      {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+                                      {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
+
+                                      {{ 'component-price.css' | asset_url | stylesheet_tag }}
+                                      {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
+                                      {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+
                                     <li>
                                       {%- if block.settings.enable_quick_add -%}
                                         {% assign quick_add = 'standard' %}

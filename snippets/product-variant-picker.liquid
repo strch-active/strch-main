@@ -16,7 +16,7 @@
     {{ block.shopify_attributes }}
   >
     {%- for option in product.options_with_values -%}
-      <div class="variant-selects-option" data-ele="variant-selects-option" {% if option.values.size > 1 %} visible-with-multiple-options {% else %} hidden {% endif %}>
+      <div class="variant-selects-option" data-ele="variant-selects-option" {% if option.values.size > 0 %} visible-with-multiple-options {% else %} hidden {% endif %}>
         {%- liquid
           assign swatch_count = option.values | map: 'swatch' | compact | size
           assign picker_type = picker_type | default: block.settings.picker_type
