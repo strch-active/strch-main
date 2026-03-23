@@ -4488,7 +4488,7 @@ body.product { padding-bottom: 60px; }
 .collection .grid__item .card__inner{ height: auto; }
 .product-grid-container[data-grid-columns-desktop="8"] .card__inner{ height: auto; }
 .product-grid-container[data-grid-columns-desktop="2"] .card__inner{ height: auto; }
-.batch-image{ width: 100%; }
+.batch-image{ width: 100%; max-width: 440px;}
 .batch-image img{ width: 100%; height: auto; }
 .product-tabs .product__accordion .accordion__content p{ font-size: 15px; }
 form .product-form__buttons button[aria-disabled="true"] { cursor: not-allowed; opacity: 0.5; }
