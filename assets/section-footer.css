@@ -373,7 +373,7 @@
 }
 
 .footer-block__details-content .list-menu__item--link:hover{
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 
 @media screen and (min-width: 769px) {
