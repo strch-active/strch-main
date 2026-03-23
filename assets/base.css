@@ -4744,6 +4744,9 @@ slideshow-component .slideshow__media:before, slideshow-component .slideshow__me
   .cart__items .cart-items tbody tr .cart-remover{ border: 0; padding: 0; margin: 0; position: absolute; right: 0; top: 0; width: auto; }
   .product-page .product--large .product__info-wrapper.grid__item{ padding-top: 10px; }
   [data-ele=variant-product-selects] [data-ele=variant-product-options-container] .swatch{ width: 45px; height: 65px; }
+  .badge{
+    font-size: 1.5rem
+  }
 }
 @media screen and (max-width: 575px){
   .collection .grid__item .card__inner { height: 410px; }
