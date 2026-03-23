@@ -4505,7 +4505,7 @@ form .product-form__buttons button[aria-disabled="true"]:hover{ background-color
 .button::before, .button::after, button::before, button::after{ content: none!important; }
 modal-opener .button::before, modal-opener .button::after, modal-opener button::before, modal-opener button::after{ content: ''!important; }
 .product-form__submit.button:hover{ background-color: #000; color: #fff; }
-.product__accordion .accordion__title{ text-transform: uppercase; }
+.product__accordion .accordion__title{ text-transform: capitalize; }
 .xb-wishlist-button__add-style-1, .xb-wishlist-button__loading-style-1, .xb-wishlist-button__remove-style-1{ border-radius: 0px!important; font-size: 15px!important; font-weight: 400; font-family: 'Jost'; }
 .list-menu__item{ text-transform: capitalize; }
 ul.menu-drawer__menu.has-submenu.list-menu > li:last-child a:before{ content: ''; background: url(https://cdn.shopify.com/s/files/1/0755/4446/1564/files/WhatsApp_Image_2025-07-02_at_14.16.48_f8fbd36a.jpg?v=1768922534); padding: 18px; background-size: contain; background-repeat: no-repeat; position: relative; top: 0; margin-right: 10px; }
