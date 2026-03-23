@@ -608,3 +608,10 @@
     max-height: 500px;
   }
 }
+
+@media screen and (max-width: 749px){
+  .footer{
+    position: relative;
+    z-index: 99;
+  }
+}
