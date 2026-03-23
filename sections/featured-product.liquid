@@ -218,6 +218,8 @@
                           {% endif %}
                           step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
                           value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                          contenteditable="false"
+                          disabled
                           form="{{ product_form_id }}"
                         >
                         <button class="quantity__button" name="plus" type="button">
