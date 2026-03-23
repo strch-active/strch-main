@@ -372,6 +372,10 @@
   }
 }
 
+.footer-block__details-content .list-menu__item--link:hover{
+  text-decoration: underline;
+}
+
 @media screen and (min-width: 769px) {
   .footer-block__details-content .list-menu__item--link {
     display: inline-block;
