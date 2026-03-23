@@ -4700,7 +4700,7 @@ slideshow-component .slideshow__media:before, slideshow-component .slideshow__me
   .footer-accordion-block .footer-accordion-title:after{ position: absolute; top: 50%; left: auto; right: 0px; transform: translateY(-50%); }
   .footer-accordion-block.active .footer-accordion-title:after{  transform: translateY(-50%) scaleY(-1); }
   .footer-block__newsletter .footer-block__heading { padding-bottom: 10px; }
-  .section-header .header { position: relative; grid-template-columns: auto 1fr auto; padding: 0px 10px; }
+  .section-header .header { position: relative; grid-template-columns: auto 1fr auto; padding: 12px; }
   .section-header .header__heading,
   .section-header .header__icons { padding-right: 0px; }
   header-drawer{ display: none; }
