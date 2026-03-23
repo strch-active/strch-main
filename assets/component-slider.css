@@ -416,7 +416,7 @@ slider-component.slider-component-full-width {
   left: auto;
 }
 .related-products .grid {
-  gap: 8px;
+  gap: 4px;
 }
 
 .recently-viewed-products .slider--tablet.grid--peek.grid--2-col-tablet .grid__item, .recently-viewed-products .slider--tablet.grid--peek.grid--2-col-tablet-down .grid__item{ width: 50%; }
