@@ -73,6 +73,8 @@ variant-selects {
   position: relative;
 }
 
+.product-page .vairant-swatch{padding: 0;}
+
 .vairant-swatch:hover .product-form__input--pill input[type='radio'] + label{background-color: #000000!important; color: #ffffff!important;}
 
 .product-form__input--pill input[type='radio'] + label:before {
