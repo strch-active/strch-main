@@ -2024,6 +2024,8 @@ input[type='checkbox'] {
   flex-grow: 1;
   -webkit-appearance: none;
   appearance: none;
+  pointer-events: none;
+  user-select: none;
 }
 
 .quantity__button {
