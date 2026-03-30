@@ -42,12 +42,12 @@
         <div class="card_badge">{{ tag_split[1] }}</div>
       {%- endif -%}
     {%- endfor -%}
-    
+
     {%- if card_product.compare_at_price > card_product.price -%}
       <div class="card_badge">
-          {% assign discount = card_product.compare_at_price | minus: card_product.price %}
-          {% assign discount_percent = discount | times: 100 | divided_by: card_product.compare_at_price %}
-          {{ discount_percent }}% OFF
+        {% assign discount = card_product.compare_at_price | minus: card_product.price %}
+        {% assign discount_percent = discount | times: 100 | divided_by: card_product.compare_at_price %}
+        {{ discount_percent }}% OFF
       </div>
     {%- endif -%}
 
@@ -70,36 +70,39 @@
         {%- if card_product.featured_media -%}
           <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
             <a href="{{ card_product.url }}">
-              <div class="media media--transparent media--hover-effect">
-                {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-                <img
-                  src="{{ card_product.featured_media | image_url }}"
-                  srcset="{{ card_product.featured_media | image_url }} {{ card_product.featured_media.width }}w"
-                  sizes="100vw"
-                  alt="{{ card_product.featured_media.alt | escape }}"
-                  class="product-card__main-image"
-                  class="motion-reduce"
-                  {% unless lazy_load == false %}
-                    loading="lazy"
-                  {% endunless %}
-                  width="{{ card_product.featured_media.width }}"
-                  height="{{ card_product.featured_media.height }}"
-                >
-                {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
-
-                {%- if card_product.media[1] != null -%}
+              {% comment %}
+                <div class="media media--transparent media--hover-effect">
+                  {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
                   <img
-                    src="{{ card_product.media[1] | image_url }}"
-                    srcset="{{ card_product.media[1] | image_url }} {{ card_product.media[1].width }}w"
+                    src="{{ card_product.featured_media | image_url }}"
+                    srcset="{{ card_product.featured_media | image_url }} {{ card_product.featured_media.width }}w"
                     sizes="100vw"
-                    alt="{{ card_product.media[1].alt | escape }}"
+                    alt="{{ card_product.featured_media.alt | escape }}"
+                    class="product-card__main-image"
                     class="motion-reduce"
-                    loading="lazy"
-                    width="{{ card_product.media[1].width }}"
-                    height="{{ card_product.media[1].height }}"
+                    {% unless lazy_load == false %}
+                      loading="lazy"
+                    {% endunless %}
+                    width="{{ card_product.featured_media.width }}"
+                    height="{{ card_product.featured_media.height }}"
                   >
-                {%- endif -%}
-              </div>
+                  {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+
+                  {%- if card_product.media[1] != null -%}
+                    <img
+                      src="{{ card_product.media[1] | image_url }}"
+                      srcset="{{ card_product.media[1] | image_url }} {{ card_product.media[1].width }}w"
+                      sizes="100vw"
+                      alt="{{ card_product.media[1].alt | escape }}"
+                      class="motion-reduce"
+                      loading="lazy"
+                      width="{{ card_product.media[1].width }}"
+                      height="{{ card_product.media[1].height }}"
+                    >
+                  {%- endif -%}
+                </div>
+              {% endcomment %}
+              {%- render 'card-product-gallery', product: card_product -%}
             </a>
           </div>
 

@@ -4715,7 +4715,7 @@ slideshow-component .slideshow__media:before, slideshow-component .slideshow__me
   .section-header .inner-logo .header__heading-link{ width: 26% !important; position: initial; transform: none; }
   table.cart-items .cart-item td { border: none;}
   table.cart-items .cart-item:last-child td{ border-bottom: none; }
-  .product--stacked .product__media-list li.product__media-item, .product:not(.product--columns) .grid__item .product__media-list .product__media-item:first-child, .product:not(.product--columns) .grid__item .product__media-list .product__media-item--full{ max-width: 70%; width: 100%; }
+  .product--stacked .product__media-list li.product__media-item, .product:not(.product--columns) .grid__item .product__media-list .product__media-item:first-child, .product:not(.product--columns) .grid__item .product__media-list .product__media-item--full{ max-width: 80%; width: 100%; }
   .product-page .product--large .product__info-wrapper.grid__item{ padding: 0px 15px; }
   .grid__item .slider.slider--mobile{ margin: 0px; }
   .grid__item .slider.slider--mobile li{ padding: 0px; }
