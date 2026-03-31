@@ -1,5 +1,8 @@
 .accordion summary {
   display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
   position: relative;
   line-height: 1;
   padding: 1.5rem 0;
@@ -33,6 +36,7 @@
   margin: 0;
   word-break: break-word;
   font-family: 'Glacial Indifference';
+  width: 100%;
 }
 
 .accordion .svg-wrapper {

@@ -95,9 +95,9 @@
 .collapsible-row-layout .accordion .accordion__content {
   padding: 1.5rem;
 }
-.collapsible-row-layout .accordion summary[aria-expanded="true"]{
+/* .collapsible-row-layout .accordion summary[aria-expanded="true"]{
   border-bottom: 1px solid #111;
-}
+} */
 
 /* .collapsible-row-layout .accordion .accordion__content {
   padding-top: 0;
