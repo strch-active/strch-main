@@ -3,15 +3,14 @@
   <head>
     <!-- Gokwik theme code start -->
 
-
-<link rel="dns-prefetch" href="https://pdp.gokwik.co/">
-<link rel="dns-prefetch" href="https://api.gokwik.co">
-{% render 'gokwik' %}
-<!-- Gokwik theme code End -->
+    <link rel="dns-prefetch" href="https://pdp.gokwik.co/">
+    <link rel="dns-prefetch" href="https://api.gokwik.co">
+    {% render 'gokwik' %}
+    <!-- Gokwik theme code End -->
 
     <script src="https://sdk.breezesdk.store/configs/strchstore/crt.js" async></script>
-<script src="https://sdk.breezesdk.store/nexus/ctrl/shopify/mods/184.0.1/mod.js" async></script>
- <script src="{{ 'breezeUtmTracker.js' | asset_url }}" async></script>
+    <script src="https://sdk.breezesdk.store/nexus/ctrl/shopify/mods/184.0.1/mod.js" async></script>
+    <script src="{{ 'breezeUtmTracker.js' | asset_url }}" async></script>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -47,8 +46,8 @@
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
     <!-- Swiper slider library -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer="defer"></script>
+    <link rel="stylesheet" href="{{ 'swiper-bundle.css' | asset_url }}">
+    <script src="{{ 'swiper-bundle.js' | asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
@@ -369,16 +368,28 @@
         onload="this.media='all'"
       >
     {%- endif -%}
-  <meta name="google-site-verification" content="UNkRSDlywvAD9m0liZX4cO2t3ufIQx3SyoPE7amFpSY" />
-
+    <meta name="google-site-verification" content="UNkRSDlywvAD9m0liZX4cO2t3ufIQx3SyoPE7amFpSY">
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}{% if template.name != 'product' %} {{ template.name }}{% endif %}{% if template.suffix != blank %}-{{ template.suffix }}{% endif %}{% if template.name == 'product' %} product-page{% endif %}">
     <!-- Page Loader -->
     <div id="page-loader" class="page-loader">
       <div class="page-loader__icon-wrapper">
-        <img src="{{ 'loader-icon.png' | asset_url }}" alt="Loading..." class="page-loader__icon">
-        <img src="{{ 'loader-icon.png' | asset_url }}" alt="" class="page-loader__icon page-loader__icon--dark" aria-hidden="true">
+        <img
+          src="{{ 'loader-icon.png' | asset_url }}"
+          alt="Loading..."
+          class="page-loader__icon"
+          width="auto"
+          height="auto"
+        >
+        <img
+          src="{{ 'loader-icon.png' | asset_url }}"
+          alt=""
+          class="page-loader__icon page-loader__icon--dark"
+          aria-hidden="true"
+          width="auto"
+          height="auto"
+        >
       </div>
     </div>
 
@@ -453,7 +464,7 @@
 
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
-      {%- endif -%}
+    {%- endif -%}
 
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
@@ -461,622 +472,346 @@
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
-            const header = document.querySelector('.section-header');
-            if (!header) return;
+          const header = document.querySelector('.section-header');
+          if (!header) return;
 
-            const body = document.body;
-            const bodyClasses = body.className;
+          const body = document.body;
+          const bodyClasses = body.className;
 
-            // if (!template) return;
+          // if (!template) return;
 
-            if (
-              bodyClasses.includes('collection-men') ||
-              bodyClasses.includes('collection-women')
-            ) {
-              header.classList.add('header--fixed');
-            }
+          if (bodyClasses.includes('collection-men') || bodyClasses.includes('collection-women')) {
+            header.classList.add('header--fixed');
+          }
         }, 100);
       });
     </script>
-    {% comment %} <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const getProductInfosBySection = (sectionId) => {
-    if (!sectionId) return [];
-    return Array.from(
-      document.querySelectorAll(
-        `product-info[data-section="${sectionId}"], product-info[data-original-section="${sectionId}"]`
-      )
-    );
-  };
 
-  const scrollSliderToMedia = (productInfo, mediaId) => {
-    if (!productInfo || !mediaId) return;
-    const slider = productInfo.querySelector('.product-media-slider');
-    if (!slider) return;
-    const targetSlide = slider.querySelector(`[data-media-id="${mediaId}"]`);
-    if (!targetSlide) return;
+    <script>
+      //Move Buy button for Mobile
+      (() => {
+        let originalParent = null;
+        let originalNextSibling = null;
+        let isMoved = false;
 
-    const sliderRect = slider.getBoundingClientRect();
-    const targetRect = targetSlide.getBoundingClientRect();
-    const scrollLeft = targetRect.left - sliderRect.left + slider.scrollLeft;
-    slider.scrollTo({ left: scrollLeft, behavior: 'smooth' });
-  };
+        const isMobile = () => window.innerWidth < 767;
 
-  if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
-    subscribe(PUB_SUB_EVENTS.variantChange, ({ data }) => {
-      const mediaId = data?.variant?.featured_media?.id;
-      if (!mediaId) return;
-      getProductInfosBySection(data.sectionId).forEach((productInfo) => {
-        scrollSliderToMedia(productInfo, mediaId);
-      });
-    });
-  }
+        const moveBuyButtons = () => {
+          const buyButtons = document.querySelector('[data-ele="buy-buttons"]');
+          const productInfo = document.querySelector('product-info');
 
-  const observer = new MutationObserver(() => {
-    document.querySelectorAll('.product-media-slider-wrapper').forEach(wrapper => {
-      if (wrapper.dataset.initialized) return;
-      wrapper.dataset.initialized = "true";
+          if (!buyButtons || !productInfo) return;
 
-      const slider = wrapper.querySelector('.product-media-slider');
-      const prevArrow = wrapper.querySelector('.prev-arrow');
-      const nextArrow = wrapper.querySelector('.next-arrow');
+          // Store original position once
+          if (!originalParent) {
+            originalParent = buyButtons.parentElement;
+            originalNextSibling = buyButtons.nextElementSibling;
+          }
 
-      if (!slider) return;
+          if (isMobile()) {
+            if (isMoved) return;
 
-      let isDown = false;
-let startX;
-let scrollLeft;
-
-// Start dragging
-slider.addEventListener("mousedown", e => {
-  isDown = true;
-  startX = e.pageX - slider.offsetLeft;
-  scrollLeft = slider.scrollLeft;
-  slider.classList.add("drag-active");
-});
-
-// Moving
-slider.addEventListener("mousemove", e => {
-  if (!isDown) return;
-
-  const x = e.pageX - slider.offsetLeft;
-  const walk = (x - startX) * 1.8;
-  slider.scrollLeft = scrollLeft - walk;
-
-  // ⭐ remove drag-active if slider moved 5px or more
-  if (Math.abs(slider.scrollLeft - scrollLeft) > 5) {
-    slider.classList.remove("drag-active");
-    isDown = false; // stop drag completely
-  }
-});
-
-// If user lifts mouse
-window.addEventListener("mouseup", () => {
-  isDown = false;
-  slider.classList.remove("drag-active");
-});
-
-
-      // STOP DRAG — IMPORTANT
-      const stopDrag = () => {
-        isDown = false;
-        slider.classList.remove("drag-active");
-      };
-
-      // Listen globally
-      window.addEventListener("mouseup", stopDrag);
-      window.addEventListener("mouseleave", stopDrag);
-      window.addEventListener("pointerup", stopDrag);
-      window.addEventListener("touchend", stopDrag);
-
-      // ARROWS
-      if (nextArrow) {
-        nextArrow.addEventListener("click", () => {
-          slider.scrollBy({ left: slider.offsetWidth, behavior: "smooth" });
-        });
-      }
-
-      if (prevArrow) {
-        prevArrow.addEventListener("click", () => {
-          slider.scrollBy({ left: -slider.offsetWidth, behavior: "smooth" });
-        });
-      }
-
-    });
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-  
-    window.recalculateCardHeights = () => {
-      const items = document.querySelectorAll('li.grid__item');
-
-      items.forEach((li) => {
-        const wrapper = li.querySelector('.card-wrapper');
-        if (!wrapper) return;
-
-        // Reset and measure
-        li.classList.remove('show-variants');
-        wrapper.style.height = 'auto';
-
-        const baseHeight = wrapper.offsetHeight;
-        li.classList.add('show-variants');
-        const expandedHeight = wrapper.scrollHeight + 3;
-        li.classList.remove('show-variants');
-
-        wrapper.dataset.baseHeight = baseHeight;
-        wrapper.dataset.expandedHeight = expandedHeight;
-        wrapper.style.height = baseHeight + 'px';
-
-        if (wrapper.dataset.heightBound === 'true') return;
-
-        li.addEventListener('mouseenter', () => {
-          const expanded = wrapper.dataset.expandedHeight || expandedHeight;
-          wrapper.style.height = `${expanded}px`;
-          li.classList.add('show-variants');
-        });
-
-        li.addEventListener('mouseleave', () => {
-          const base = wrapper.dataset.baseHeight || baseHeight;
-          wrapper.style.height = `${base}px`;
-          li.classList.remove('show-variants');
-        });
-
-        wrapper.dataset.heightBound = 'true';
-      });
-    };
-
-    window.recalculateCardHeights();
-    
-    document.querySelectorAll(".product-card-wrapper").forEach(function (card) {
-      const mediaImgs = card.querySelectorAll(".card__media .media img");
-      if (mediaImgs.length === 0) return;
-
-      const mediaLink = card.querySelector(".card__media a");
-      const cardLink = card.querySelector(".full-unstyled-link");
-      const variantThumbs = card.querySelectorAll(".variant-image-slide");
-
-      let baseUrl = mediaLink?.href || cardLink?.href;
-
-      variantThumbs.forEach(thumb => {
-        const variantImg = thumb.dataset.imgUrl;
-        const variantId = thumb.dataset.variantId;
-        const variantUrl = `${baseUrl}?variant=${variantId}`;
-
-        thumb.addEventListener("mouseenter", () => {
-          mediaImgs.forEach(img => {
-            img.src = variantImg;
-            img.srcset = variantImg;
-          });
-
-          if (mediaLink) mediaLink.href = variantUrl;
-          if (cardLink) cardLink.href = variantUrl;
-        });
-      });
-    });
-
-    document.querySelectorAll(".variant-image-slider-container").forEach(function(container) {
-      const slider = container.querySelector(".variant-image-slider");
-      const btnLeft = container.querySelector(".variant-arrow--left");
-      const btnRight = container.querySelector(".variant-arrow--right");
-      const scrollAmount = 150;
-      const updateArrowsVisibility = () => {
-        if (slider.scrollWidth > slider.clientWidth) {
-          if (btnLeft) btnLeft.style.display = 'block';
-          if (btnRight) btnRight.style.display = 'block';
-        } else {
-          if (btnLeft) btnLeft.style.display = 'none';
-          if (btnRight) btnRight.style.display = 'none';
-        }
-      };
-
-      // Initial check
-      updateArrowsVisibility();
-      
-      window.addEventListener('resize', updateArrowsVisibility);
-      /* Safely attach arrows */
-      if (btnLeft) {
-        btnLeft.addEventListener("mousedown", e => e.stopPropagation());
-        btnLeft.addEventListener("touchstart", e => e.stopPropagation());
-
-        btnLeft.addEventListener("click", (e) => {
-          e.stopPropagation();
-          slider.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-        });
-      }
-
-      if (btnRight) {
-        btnRight.addEventListener("mousedown", e => e.stopPropagation());
-        btnRight.addEventListener("touchstart", e => e.stopPropagation());
-
-        btnRight.addEventListener("click", (e) => {
-          e.stopPropagation();
-          slider.scrollBy({ left: scrollAmount, behavior: "smooth" });
-        });
-      }
-
-      // Drag / swipe support
-      let isDown = false;
-      let startX;
-      let scrollLeft;
-
-      const startDrag = (x) => {
-        isDown = true;
-        startX = x - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-      };
-
-      slider.addEventListener("mousedown", (e) => startDrag(e.pageX));
-      slider.addEventListener("touchstart", (e) => startDrag(e.touches[0].pageX));
-
-      const endDrag = () => { isDown = false; };
-      slider.addEventListener("mouseup", endDrag);
-      slider.addEventListener("mouseleave", endDrag);
-      slider.addEventListener("touchend", endDrag);
-
-      const moveDrag = (x) => {
-        if (!isDown) return;
-        const moveX = x - slider.offsetLeft;
-        const walk = (moveX - startX) * 1.5;
-        slider.scrollLeft = scrollLeft - walk;
-      };
-
-      slider.addEventListener("mousemove", (e) => moveDrag(e.pageX));
-      slider.addEventListener("touchmove", (e) => moveDrag(e.touches[0].pageX));
-    });
-    
-    const updateVariantMedia = (variantId) => {
-      slides.forEach(slide => {
-        const variantIds = slide.dataset.variantIds?.split(',');
-        if (variantIds?.includes(variantId)) {
-        }
-      });
-    };
-    if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
-      subscribe(PUB_SUB_EVENTS.variantChange, ({ data }) => {
-        const variantId = data?.variant?.id;
-        if (!variantId) return;
-
-        const sectionId = data.sectionId;
-        const productInfos = document.querySelectorAll(
-          `product-info[data-section="${sectionId}"], product-info[data-original-section="${sectionId}"]`
-        );
-
-        productInfos.forEach((productInfo) => {
-          const slider = productInfo.querySelector('.product-media-slider');
-          if (!slider) return;
-
-          const target = slider.querySelector(
-            `[data-variant-ids*="${variantId},"]`
-          ) || slider.querySelector('[data-media-id]'); // fallback
-
-          if (!target) return;
-          const sliderRect = slider.getBoundingClientRect();
-          const targetRect = target.getBoundingClientRect();
-          const scrollLeft = targetRect.left - sliderRect.left + slider.scrollLeft;
-          slider.scrollTo({ left: scrollLeft, behavior: 'smooth' });
-        });
-      });
-    }
-  });
-
-  document.querySelectorAll('.main-nav-item').forEach(function(item){
-    item.addEventListener('mouseenter', function(){
-      var parent = item.getAttribute('data-parent');
-      document.querySelectorAll('.mega-menu-panel').forEach(function(panel){
-        panel.style.display = (panel.getAttribute('data-parent') === parent) ? 'block' : 'none';
-      });
-    });
-    item.addEventListener('mouseleave', function(){
-      document.querySelectorAll('.mega-menu-panel').forEach(function(panel){
-        panel.style.display = 'none';
-      });
-    });
-  });
-</script> {% endcomment %}
-<script>
-    //Move Buy button for Mobile
-  (() => {
-    let originalParent = null;
-    let originalNextSibling = null;
-    let isMoved = false;
-
-    const isMobile = () => window.innerWidth < 767;
-
-    const moveBuyButtons = () => {
-      const buyButtons = document.querySelector('[data-ele="buy-buttons"]');
-      const productInfo = document.querySelector('product-info');
-
-      if (!buyButtons || !productInfo) return;
-
-      // Store original position once
-      if (!originalParent) {
-        originalParent = buyButtons.parentElement;
-        originalNextSibling = buyButtons.nextElementSibling;
-      }
-
-      if (isMobile()) {
-        if (isMoved) return;
-
-        productInfo.appendChild(buyButtons);
-        isMoved = true;
-      } else {
-        if (!isMoved || !originalParent) return;
-
-        // Restore to original place
-        if (originalNextSibling && originalParent.contains(originalNextSibling)) {
-          originalParent.insertBefore(buyButtons, originalNextSibling);
-        } else {
-          originalParent.appendChild(buyButtons);
-        }
-
-        isMoved = false;
-      }
-    };
-
-    // Initial load
-    document.addEventListener('DOMContentLoaded', moveBuyButtons);
-
-    // Resize (orientation / viewport change)
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(moveBuyButtons, 150);
-    });
-
-    // Shopify dynamic updates
-    document.addEventListener('shopify:section:load', moveBuyButtons);
-    document.addEventListener('shopify:section:reorder', moveBuyButtons);
-    document.addEventListener('variant:change', moveBuyButtons);
-
-    // Catch AJAX / Quick Add re-renders
-    const observer = new MutationObserver(moveBuyButtons);
-    observer.observe(document.body, { childList: true, subtree: true });
-  })();
-
-  if (Shopify.designMode) {
-    document.documentElement.classList.add('shopify-design-mode');
-  }
-
-  // Page loader behavior:
-  // - On homepage: keep loader visible until videos (and video iframes) are ready.
-  // - On all other pages: keep loader visible only until the DOM is loaded.
-  (function() {
-    const loader = document.getElementById('page-loader');
-    if (!loader) return;
-
-    const isHomePage = document.body && document.body.classList.contains('index');
-
-    function hideLoaderSimple() {
-      loader.classList.add('hidden');
-      setTimeout(function() {
-        if (loader.parentNode) {
-          loader.parentNode.removeChild(loader);
-        }
-      }, 300);
-    }
-
-    // Non-home pages: hide loader as soon as DOM is ready
-    if (!isHomePage) {
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', hideLoaderSimple);
-      } else {
-        hideLoaderSimple();
-      }
-      return;
-    }
-
-    // Homepage: wait for videos / video iframes to be ready
-    let mediaLoaded = false;
-    let loaderHidden = false;
-    const MAX_WAIT_TIME = 15000; // 15 seconds max wait time
-    const trackedMedia = new Set(); // Track which media elements we've already processed
-
-    function hideLoader() {
-      if (loaderHidden || !mediaLoaded) return;
-
-      loaderHidden = true;
-      loader.classList.add('hidden');
-      // Remove from DOM after transition completes
-      setTimeout(function() {
-        if (loader.parentNode) {
-          loader.parentNode.removeChild(loader);
-        }
-      }, 300);
-    }
-
-    let loadedMediaCount = 0;
-    let totalMediaCount = 0;
-
-    function checkMediaLoaded() {
-      const videos = document.querySelectorAll('video');
-      const iframes = document.querySelectorAll('iframe[src*="youtube"], iframe[src*="vimeo"], iframe[src*="player"]');
-
-      totalMediaCount = videos.length + iframes.length;
-
-      // If no videos/iframes, mark as loaded immediately
-      if (totalMediaCount === 0) {
-        mediaLoaded = true;
-        hideLoader();
-        return;
-      }
-
-      function checkIfAllMediaLoaded() {
-        if (loadedMediaCount >= totalMediaCount && !mediaLoaded) {
-          mediaLoaded = true;
-          hideLoader();
-        }
-      }
-
-      // Track videos
-      videos.forEach(function(video) {
-        // Skip if already tracked
-        if (trackedMedia.has(video)) return;
-        trackedMedia.add(video);
-
-        // Force video to start loading immediately if not already loading
-        if (video.preload !== 'auto' && video.preload !== 'metadata') {
-          video.preload = 'auto';
-        }
-        if (video.readyState === 0) {
-          video.load();
-        }
-
-        // Check if video has enough data to be visible/playable
-        const isVideoReady = function() {
-          // Video is ready if it has enough data (readyState >= 2) 
-          // OR if it's visible and has loaded metadata
-          const rect = video.getBoundingClientRect();
-          const isVisible = rect.width > 0 && rect.height > 0 && 
-                           rect.top < window.innerHeight + 100 && 
-                           rect.bottom > -100;
-
-          // For visible videos, we want at least metadata loaded
-          // For non-visible videos, we can accept readyState >= 2
-          if (isVisible) {
-            return video.readyState >= 1; // At least metadata loaded for visible videos
+            productInfo.appendChild(buyButtons);
+            isMoved = true;
           } else {
-            return video.readyState >= 2; // Enough data for non-visible videos
+            if (!isMoved || !originalParent) return;
+
+            // Restore to original place
+            if (originalNextSibling && originalParent.contains(originalNextSibling)) {
+              originalParent.insertBefore(buyButtons, originalNextSibling);
+            } else {
+              originalParent.appendChild(buyButtons);
+            }
+
+            isMoved = false;
           }
         };
 
-        if (isVideoReady()) {
-          loadedMediaCount++;
-          checkIfAllMediaLoaded();
-        } else {
-          // Video needs to load
-          let videoTracked = false;
-          const markVideoLoaded = function() {
-            if (!videoTracked && isVideoReady()) {
-              videoTracked = true;
-              loadedMediaCount++;
-              checkIfAllMediaLoaded();
-            }
-          };
+        // Initial load
+        document.addEventListener('DOMContentLoaded', moveBuyButtons);
 
-          video.addEventListener('loadedmetadata', markVideoLoaded, { once: true });
-          video.addEventListener('loadeddata', markVideoLoaded, { once: true });
-          video.addEventListener('canplay', markVideoLoaded, { once: true });
-          video.addEventListener('canplaythrough', markVideoLoaded, { once: true });
-          video.addEventListener('error', function() {
-            if (!videoTracked) {
-              videoTracked = true;
-              loadedMediaCount++;
-              checkIfAllMediaLoaded();
-            }
-          }, { once: true });
-
-          // Periodic check for videos that might not trigger events
-          const videoCheck = setInterval(function() {
-            if (isVideoReady() || video.error) {
-              clearInterval(videoCheck);
-              if (!videoTracked) {
-                videoTracked = true;
-                loadedMediaCount++;
-                checkIfAllMediaLoaded();
-              }
-            }
-          }, 200);
-
-          // Clear interval after timeout
-          setTimeout(function() {
-            clearInterval(videoCheck);
-            if (!videoTracked) {
-              videoTracked = true;
-              loadedMediaCount++;
-              checkIfAllMediaLoaded();
-            }
-          }, 12000);
-        }
-      });
-
-      // Track iframes (YouTube/Vimeo/etc)
-      iframes.forEach(function(iframe) {
-        // Skip if already tracked
-        if (trackedMedia.has(iframe)) return;
-        trackedMedia.add(iframe);
-
-        let iframeTracked = false;
-        iframe.addEventListener('load', function() {
-          if (!iframeTracked) {
-            iframeTracked = true;
-            loadedMediaCount++;
-            checkIfAllMediaLoaded();
-          }
-        }, { once: true });
-        iframe.addEventListener('error', function() {
-          if (!iframeTracked) {
-            iframeTracked = true;
-            loadedMediaCount++;
-            checkIfAllMediaLoaded();
-          }
-        }, { once: true });
-      });
-
-      // Initial check
-      checkIfAllMediaLoaded();
-
-      // Fallback timeout for media
-      setTimeout(function() {
-        if (!mediaLoaded) {
-          mediaLoaded = true;
-          hideLoader();
-        }
-      }, MAX_WAIT_TIME);
-    }
-
-    // Start checking videos as soon as DOM is ready on homepage
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(checkMediaLoaded, 100);
-      });
-    } else {
-      setTimeout(checkMediaLoaded, 100);
-    }
-
-    // Watch for dynamically added media on homepage
-    const observer = new MutationObserver(function(mutations) {
-      if (mediaLoaded) return;
-
-      let hasNewMedia = false;
-      mutations.forEach(function(mutation) {
-        mutation.addedNodes.forEach(function(node) {
-          if (node.nodeType === 1) { // Element node
-            if (node.tagName === 'VIDEO' || 
-                (node.tagName === 'IFRAME' && node.src && 
-                 (node.src.includes('youtube') || node.src.includes('vimeo') || node.src.includes('player')))) {
-              hasNewMedia = true;
-            }
-            // Check for media inside added nodes
-            if (node.querySelectorAll) {
-              const videos = node.querySelectorAll('video');
-              const iframes = node.querySelectorAll('iframe[src*="youtube"], iframe[src*="vimeo"], iframe[src*="player"]');
-              if (videos.length > 0 || iframes.length > 0) {
-                hasNewMedia = true;
-              }
-            }
-          }
+        // Resize (orientation / viewport change)
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(moveBuyButtons, 150);
         });
-      });
 
-      if (hasNewMedia) {
-        checkMediaLoaded();
+        // Shopify dynamic updates
+        document.addEventListener('shopify:section:load', moveBuyButtons);
+        document.addEventListener('shopify:section:reorder', moveBuyButtons);
+        document.addEventListener('variant:change', moveBuyButtons);
+
+        // Catch AJAX / Quick Add re-renders
+        const observer = new MutationObserver(moveBuyButtons);
+        observer.observe(document.body, { childList: true, subtree: true });
+      })();
+
+      if (Shopify.designMode) {
+        document.documentElement.classList.add('shopify-design-mode');
       }
-    });
 
-    if (document.body) {
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
-    } else {
-      document.addEventListener('DOMContentLoaded', function() {
-        observer.observe(document.body, {
-          childList: true,
-          subtree: true
+      // Page loader behavior:
+      // - On homepage: keep loader visible until videos (and video iframes) are ready.
+      // - On all other pages: keep loader visible only until the DOM is loaded.
+      (function () {
+        const loader = document.getElementById('page-loader');
+        if (!loader) return;
+
+        const isHomePage = document.body && document.body.classList.contains('index');
+
+        function hideLoaderSimple() {
+          loader.classList.add('hidden');
+          setTimeout(function () {
+            if (loader.parentNode) {
+              loader.parentNode.removeChild(loader);
+            }
+          }, 300);
+        }
+
+        // Non-home pages: hide loader as soon as DOM is ready
+        if (!isHomePage) {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', hideLoaderSimple);
+          } else {
+            hideLoaderSimple();
+          }
+          return;
+        }
+
+        // Homepage: wait for videos / video iframes to be ready
+        let mediaLoaded = false;
+        let loaderHidden = false;
+        const MAX_WAIT_TIME = 15000; // 15 seconds max wait time
+        const trackedMedia = new Set(); // Track which media elements we've already processed
+
+        function hideLoader() {
+          if (loaderHidden || !mediaLoaded) return;
+
+          loaderHidden = true;
+          loader.classList.add('hidden');
+          // Remove from DOM after transition completes
+          setTimeout(function () {
+            if (loader.parentNode) {
+              loader.parentNode.removeChild(loader);
+            }
+          }, 300);
+        }
+
+        let loadedMediaCount = 0;
+        let totalMediaCount = 0;
+
+        function checkMediaLoaded() {
+          const videos = document.querySelectorAll('video');
+          const iframes = document.querySelectorAll(
+            'iframe[src*="youtube"], iframe[src*="vimeo"], iframe[src*="player"]'
+          );
+
+          totalMediaCount = videos.length + iframes.length;
+
+          // If no videos/iframes, mark as loaded immediately
+          if (totalMediaCount === 0) {
+            mediaLoaded = true;
+            hideLoader();
+            return;
+          }
+
+          function checkIfAllMediaLoaded() {
+            if (loadedMediaCount >= totalMediaCount && !mediaLoaded) {
+              mediaLoaded = true;
+              hideLoader();
+            }
+          }
+
+          // Track videos
+          videos.forEach(function (video) {
+            // Skip if already tracked
+            if (trackedMedia.has(video)) return;
+            trackedMedia.add(video);
+
+            // Force video to start loading immediately if not already loading
+            if (video.preload !== 'auto' && video.preload !== 'metadata') {
+              video.preload = 'auto';
+            }
+            if (video.readyState === 0) {
+              video.load();
+            }
+
+            // Check if video has enough data to be visible/playable
+            const isVideoReady = function () {
+              // Video is ready if it has enough data (readyState >= 2)
+              // OR if it's visible and has loaded metadata
+              const rect = video.getBoundingClientRect();
+              const isVisible =
+                rect.width > 0 && rect.height > 0 && rect.top < window.innerHeight + 100 && rect.bottom > -100;
+
+              // For visible videos, we want at least metadata loaded
+              // For non-visible videos, we can accept readyState >= 2
+              if (isVisible) {
+                return video.readyState >= 1; // At least metadata loaded for visible videos
+              } else {
+                return video.readyState >= 2; // Enough data for non-visible videos
+              }
+            };
+
+            if (isVideoReady()) {
+              loadedMediaCount++;
+              checkIfAllMediaLoaded();
+            } else {
+              // Video needs to load
+              let videoTracked = false;
+              const markVideoLoaded = function () {
+                if (!videoTracked && isVideoReady()) {
+                  videoTracked = true;
+                  loadedMediaCount++;
+                  checkIfAllMediaLoaded();
+                }
+              };
+
+              video.addEventListener('loadedmetadata', markVideoLoaded, { once: true });
+              video.addEventListener('loadeddata', markVideoLoaded, { once: true });
+              video.addEventListener('canplay', markVideoLoaded, { once: true });
+              video.addEventListener('canplaythrough', markVideoLoaded, { once: true });
+              video.addEventListener(
+                'error',
+                function () {
+                  if (!videoTracked) {
+                    videoTracked = true;
+                    loadedMediaCount++;
+                    checkIfAllMediaLoaded();
+                  }
+                },
+                { once: true }
+              );
+
+              // Periodic check for videos that might not trigger events
+              const videoCheck = setInterval(function () {
+                if (isVideoReady() || video.error) {
+                  clearInterval(videoCheck);
+                  if (!videoTracked) {
+                    videoTracked = true;
+                    loadedMediaCount++;
+                    checkIfAllMediaLoaded();
+                  }
+                }
+              }, 200);
+
+              // Clear interval after timeout
+              setTimeout(function () {
+                clearInterval(videoCheck);
+                if (!videoTracked) {
+                  videoTracked = true;
+                  loadedMediaCount++;
+                  checkIfAllMediaLoaded();
+                }
+              }, 12000);
+            }
+          });
+
+          // Track iframes (YouTube/Vimeo/etc)
+          iframes.forEach(function (iframe) {
+            // Skip if already tracked
+            if (trackedMedia.has(iframe)) return;
+            trackedMedia.add(iframe);
+
+            let iframeTracked = false;
+            iframe.addEventListener(
+              'load',
+              function () {
+                if (!iframeTracked) {
+                  iframeTracked = true;
+                  loadedMediaCount++;
+                  checkIfAllMediaLoaded();
+                }
+              },
+              { once: true }
+            );
+            iframe.addEventListener(
+              'error',
+              function () {
+                if (!iframeTracked) {
+                  iframeTracked = true;
+                  loadedMediaCount++;
+                  checkIfAllMediaLoaded();
+                }
+              },
+              { once: true }
+            );
+          });
+
+          // Initial check
+          checkIfAllMediaLoaded();
+
+          // Fallback timeout for media
+          setTimeout(function () {
+            if (!mediaLoaded) {
+              mediaLoaded = true;
+              hideLoader();
+            }
+          }, MAX_WAIT_TIME);
+        }
+
+        // Start checking videos as soon as DOM is ready on homepage
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(checkMediaLoaded, 100);
+          });
+        } else {
+          setTimeout(checkMediaLoaded, 100);
+        }
+
+        // Watch for dynamically added media on homepage
+        const observer = new MutationObserver(function (mutations) {
+          if (mediaLoaded) return;
+
+          let hasNewMedia = false;
+          mutations.forEach(function (mutation) {
+            mutation.addedNodes.forEach(function (node) {
+              if (node.nodeType === 1) {
+                // Element node
+                if (
+                  node.tagName === 'VIDEO' ||
+                  (node.tagName === 'IFRAME' &&
+                    node.src &&
+                    (node.src.includes('youtube') || node.src.includes('vimeo') || node.src.includes('player')))
+                ) {
+                  hasNewMedia = true;
+                }
+                // Check for media inside added nodes
+                if (node.querySelectorAll) {
+                  const videos = node.querySelectorAll('video');
+                  const iframes = node.querySelectorAll(
+                    'iframe[src*="youtube"], iframe[src*="vimeo"], iframe[src*="player"]'
+                  );
+                  if (videos.length > 0 || iframes.length > 0) {
+                    hasNewMedia = true;
+                  }
+                }
+              }
+            });
+          });
+
+          if (hasNewMedia) {
+            checkMediaLoaded();
+          }
         });
-      });
-    }
-  })();
-</script>
+
+        if (document.body) {
+          observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+          });
+        } else {
+          document.addEventListener('DOMContentLoaded', function () {
+            observer.observe(document.body, {
+              childList: true,
+              subtree: true,
+            });
+          });
+        }
+      })();
+    </script>
+
+    <script src="{{ 'cart-product-gallery.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
