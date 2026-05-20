@@ -226,7 +226,7 @@
           "type": "men_block",
           "settings": {
             "image": "shopify://shop_images/1-Mens_Tees_tanks.jpg",
-            "link": "shopify://collections/men-top-wear",
+            "link": "shopify://collections/men-tees-and-tanks",
             "label": "Tees & Tanks"
           }
         },
